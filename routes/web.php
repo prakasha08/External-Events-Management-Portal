@@ -18,3 +18,6 @@ Route::get('/admin/events_req/{id}/evaluate', [admin::class, 'evaluate'])->name(
 Route::post('/admin/events_req/{id}/evaluate', [admin::class, 'storeEvaluation'])->name('events_req.storeEvaluation');
 Route::get('/admin/eventsList', [admin::class, 'events_index'])->name('admin_events_List.index');
 Route::get('/admin/eventsList/{event}', [admin::class, 'events_show'])->name('admin_events_List.show');
+Route::get('/admin/eventsList/{event}/edit',[admin::class,'events_edit'])->name('admin_events_List.edit');
+Route::put('/admin/eventsList/{event}', [admin::class, 'events_update'])->name('admin_events_List.update');
+Route::delete('/admin/eventsList/{event}',[admin::class,'events_destroy'])->name('admin_events_List.delete');

@@ -6,7 +6,7 @@
         <div class="main-content flex-grow p-4">
             <!-- Header -->
             <div class="header flex items-center bg-gray-600 text-black p-4 rounded mb-6 relative">
-                <img src="./Bannari_Amman_Institute_of_Technology_logo-removebg-preview.png" alt="BIT Logo"
+                <img src="{{ asset('logo.png') }}"  alt="BIT Logo"
                     class="h-16 ml-10 lg:ml-0 md:ml-0 s">
                 <h1 class="text-xl ml-4">Prakash A</h1>
                 <i class="fa-solid fa-user-graduate text-2xl ml-2"></i>
@@ -21,20 +21,20 @@
              @endif
             <!-- Form Section -->
             <div class="bg-white p-6 rounded shadow">
-                <h2 class="text-xl text-center bg-gray-600 text-white p-3 rounded mb-6 font-bold">Add New Event</h2>
-                <form class="forms" action="{{route('events.update',$event->id)}}" method="POST">
+                <h2 class="text-xl text-center bg-gray-600 text-white p-3 rounded mb-6 font-bold">Update Event</h2>
+                <form class="forms" action="{{ route('admin_events_List.update', $event->id)}}" method="POST">
                     @method('PUT')
                     @csrf
                     <!-- First Row with two inputs -->
                     <div class="flex flex-wrap -mx-2">
                         <div class="form-group w-full md:w-1/2 px-2 mb-4">
-                        @if($errors->first('eventname'))
+                        @if($errors->first('event_name'))
                         <span class="text-red-500 text-sm mt-1 block">
-                            <strong>{{ $errors->first('eventname') }}</strong>
+                            <strong>{{ $errors->first('event_name') }}</strong>
                         </span>
                     @endif    
-                        <label for="eventname" class="block text-sm font-medium text-gray-700">*Enter Event Name:</label>
-                            <input type="text" id="eventname" name="eventname" value="{{$event->eventname}}" required
+                        <label for="event_name" class="block text-sm font-medium text-gray-700">Event Name:</label>
+                            <input type="text" id="event_name" name="event_name" value="{{$event->event_name}}" required
                                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
                         </div>
                         <div class="form-group w-full md:w-1/2 px-2 mb-4">
@@ -43,7 +43,7 @@
                             <strong>{{ $errors->first('institute') }}</strong>
                         </span>
                     @endif
-                            <label for="institute" class="block text-sm font-medium text-gray-700">*Enter Institute:</label>
+                            <label for="institute" class="block text-sm font-medium text-gray-700">Institute:</label>
                             <input type="text" id="institute" name="institute" value="{{$event->institute}}" required
                                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
                         </div>
@@ -78,23 +78,23 @@
                     <!-- Fifth Row with two inputs -->
                     <div class="flex flex-wrap -mx-2">
                         <div class="form-group w-full md:w-1/2 px-2 mb-4">
-                            @if($errors->first('enddate'))
+                            @if($errors->first('end_date'))
                             <span class="text-red-500 text-sm mt-1 block">
-                                <strong>{{ $errors->first('enddate') }}</strong>
+                                <strong>{{ $errors->first('end_date') }}</strong>
                             </span>
                             @endif
-                            <label for="enddate" class="block text-sm font-medium text-gray-700">*Ending Date:</label>
-                            <input type="date" id="enddate" name="enddate" value="{{$event->enddate}}" required
+                            <label for="end_date" class="block text-sm font-medium text-gray-700">*Ending Date:</label>
+                            <input type="date" id="end_date" name="end_date" value="{{$event->end_date}}" required
                                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
                         </div>
                         <div class="form-group w-full md:w-1/2 px-2 mb-4">
-                            @if($errors->first('startdate'))
+                            @if($errors->first('start_date'))
                             <span class="text-red-500 text-sm mt-1 block">
-                                <strong>{{ $errors->first('startdate') }}</strong>
+                                <strong>{{ $errors->first('start_date') }}</strong>
                             </span>
                             @endif
-                            <label for="startdate" class="block text-sm font-medium text-gray-700">*Starting Date:</label>
-                            <input type="date" id="startdate" name="startdate" value="{{$event->startdate}}" required
+                            <label for="start_date" class="block text-sm font-medium text-gray-700">*Starting Date:</label>
+                            <input type="date" id="start_date" name="start_date" value="{{$event->start_date}}" required
                                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
                         </div>
                     </div>
@@ -118,14 +118,13 @@
                         <span class="text-red-500 text-sm mt-1 block">
                             <strong>{{ $errors->first('ira') }}</strong>
                         </span>
-                    @endif
-                            <label for="status" class="block text-sm font-medium text-gray-700">*IRA</label>
-                            <input type="radio" id="yes" value="yes" name="ira" {{ $event->ira == 'yes' ? 'checked' : '' }} class="mt-5 ml-2">
-                            <label for="yes">Yes</label>
-                            <input type="radio" id="no" value="no" name="ira" {{ $event->ira == 'no' ? 'checked' : '' }} class="ml-2">
-                            <label for="no">No</label>               
-                        </div>
-
+                        @endif
+                        <label for="ira" class="block text-sm font-medium text-gray-700">IRA:</label>
+                        <select id="ira" name="ira" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                            <option value="Yes" {{ $event->ira == 'Yes' ? 'selected' : '' }}>Yes</option>
+                            <option value="No" {{ $event->ira == 'No' ? 'selected' : '' }}>No</option>
+                        </select>
+                        </div>                
                     </div>
                     
                     <div class="flex justify-center">

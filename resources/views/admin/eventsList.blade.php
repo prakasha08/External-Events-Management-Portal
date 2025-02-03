@@ -53,12 +53,12 @@
                                     </a>
                                 </td>
                                 <td class="border p-3 text-center">
-                                    <a href="" class="cursor-pointer">
+                                    <a href="{{route('admin_events_List.edit',$event->id)}}" class="cursor-pointer">
                                         <i class="fa-solid fa-pen-to-square" style="color: #171717;"></i>
                                     </a>
                                 </td>
                                 <td class="border p-3 text-center">
-                                    <form action="" method="POST">   
+                                    <form action="{{route('admin_events_List.delete',$event->id)}}" method="POST">   
                                         @method('DELETE')
                                         @csrf
                                         <button type="submit"><i class="fa-solid fa-trash" style="color: #ff0000;"></i></button>

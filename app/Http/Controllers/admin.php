@@ -13,10 +13,53 @@ class Admin extends Controller
         $events = EventsList::orderBy('created_at', 'desc')->paginate(4);
         return view('admin.eventsList', compact('events'));
     }
+
     public function events_show(EventsList $event)
     {
         return view('student.eventsList_show',compact('event'));
     }
+
+    public function events_edit(EventsList $event)
+    {
+        return view('admin.events_update',compact('event'));
+    }
+
+    public function events_destroy(EventsList $event)
+    {
+        $event->delete();
+        return redirect()
+        ->route('admin_events_List.index',$event->id)
+        ->withMessage('Event deleted successfully!!');
+    }
+    public function events_update(Request $request, EventsList $event)
+        {
+            $request->validate([
+                'event_name' => 'required|unique:events,event_name,' . $event->id,
+                'institute' => 'required',
+                'location' => 'required',
+                'mode' => 'required',
+                'end_date' => 'required|date',
+                'start_date' => 'required|date',
+                'status' => 'required',
+                'ira' => 'required'
+            ], [
+                'event_name.required' => 'Event Name is required.',
+                'event_name.unique' => 'Event Name must be unique.',
+                'institute.required' => 'Institute is required.',
+                'location.required' => 'Location is required.',
+                'mode.required' => 'Mode is required.',
+                'end_date.required' => 'End Date is required.',
+                'end_date.date' => 'End Date must be a valid date.',
+                'start_date.required' => 'Start Date is required.',
+                'start_date.date' => 'Start Date must be a valid date.',
+                'status.required' => 'Status is required.',
+                'ira.required' => 'IRA is required.'
+            ]);
+        
+            $event->update($request->all());
+        
+            return redirect()->route('admin_events_List.index')->with('message', 'Event updated successfully!');
+        }
 
     public function eventsReq_index()
     {
