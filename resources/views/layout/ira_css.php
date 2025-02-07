@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Portal</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom styles for status labels */
@@ -28,27 +28,32 @@
 </head>
 
 <body class="bg-gray-100 font-sans">
-    <!-- Main container -->
-    <div class="flex flex-col lg:flex-row">
-        <!-- Sidebar -->
-        <div id="sidebar"
-            class="sidebar bg-gray-700 text-white w-64 p-6 fixed lg:relative h-full lg:h-screen transform lg:translate-x-0 -translate-x-full transition-transform duration-300 z-20">
-            <div class="flex items-center mb-6">
-                <i class="fa-solid fa-handshake-angle text-3xl mr-2 text-black"></i>
-                <h2 class="text-2xl text-cyan-400 font-bold">EVENTS</h2>
-                <h3 class="text-lg text-black ml-1">PORTAL</h3>
+        <!-- Main container -->
+        <div class="flex flex-col lg:flex-row">
+            <!-- Sidebar -->
+            <div id="sidebar"
+                class="sidebar bg-gray-700 text-white w-64 p-6 fixed lg:relative h-full lg:h-screen transform lg:translate-x-0 -translate-x-full transition-transform duration-300 z-20">
+                <div class="flex items-center mb-6">
+                    <i class="fa-solid fa-handshake-angle text-3xl mr-2 text-black"></i>
+                    <h2 class="text-2xl text-cyan-400 font-bold">EVENTS</h2>
+                    <h3 class="text-lg text-black ml-1">PORTAL</h3>
+                </div>
+                <ul class="space-y-4">
+                    <li><a href="{{route('admin_events_List.index')}}"  
+                    class="block py-2 px-3 text-base  N-active bg-gray-600 rounded hover:bg-gray-500">Event Status</a></li>
+                    <li><a href="{{route('admin_events_req.index')}}"
+                    class="block py-2 px-3 text-base  N-active bg-gray-600 rounded hover:bg-gray-500">Event Requests</a></li>
+                    <li><a href=""
+                                class="block py-2 px-3 text-base active">IRA</a></li>
+                            <li><a href=""
+                                class="block py-2 px-3 text-base active">IRA Registration</a></li>
+                            <li><a href=""
+                                    class="block py-2 px-3 text-base N-active bg-gray-600 rounded hover:bg-gray-500">IRA Result</a></li>
+                </ul>
             </div>
-            <ul class="space-y-4">
-                <li><a href="{{ route('eventsList.index') }}" class="block py-2 px-3 text-base active">Event Status</a></li>
-                <li><a href="{{ route('events_req.index') }}"
-                        class="block py-2 px-3 text-base N-active bg-gray-600 rounded hover:bg-gray-500">Event Request Submission</a></li>
-                <li><a href="{{ route('ira.index') }}"
-                        class="block py-2 px-3 text-base N-active bg-gray-600 rounded hover:bg-gray-500">IRA</a></li>
-            </ul>
+            @yield('content')
         </div>
-        @yield('content')
-    </div>
-    <script>
+        <script>
         // Toggle sidebar function
         const sidebar = document.getElementById('sidebar');
         const toggleButton = document.getElementById('toggleButton');
@@ -77,13 +82,13 @@
         document.addEventListener('click', (event) => {
             const isClickInsideSidebar = sidebar.contains(event.target);
             const isClickOnToggle = toggleButton.contains(event.target);
-
+            
             // Check if the click is outside the sidebar and not on the toggle button
             if (!isClickInsideSidebar && !isClickOnToggle && !sidebar.classList.contains('-translate-x-full')) {
                 sidebar.classList.add('-translate-x-full');
             }
         });
     </script>
-</body>
 
+</body>
 </html>

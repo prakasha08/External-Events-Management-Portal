@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin;
 use App\Http\Controllers\Events_request;
+use App\Http\Controllers\ira;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,6 +17,8 @@ Route::get('/student/eventsList/{event}', [Events_request::class, 'events_show']
 Route::get('/admin/events_req',[admin::class,'eventsReq_index'])->name('admin_events_req.index');
 Route::get('/admin/events_req/{id}/evaluate', [admin::class, 'evaluate'])->name('events_req.evaluate');
 Route::post('/admin/events_req/{id}/evaluate', [admin::class, 'storeEvaluation'])->name('events_req.storeEvaluation');
+Route::get('/student/ira', [ira::class, 'ira_index'])->name('ira.index');
+
 Route::get('/admin/eventsList', [admin::class, 'events_index'])->name('admin_events_List.index');
 Route::get('/admin/eventsList/{event}', [admin::class, 'events_show'])->name('admin_events_List.show');
 Route::get('/admin/eventsList/{event}/edit',[admin::class,'events_edit'])->name('admin_events_List.edit');
