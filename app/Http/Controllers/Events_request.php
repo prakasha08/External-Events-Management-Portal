@@ -43,34 +43,34 @@ class Events_request extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'reg_no' => 'required',
-            'event_name' => 'required|unique:events_req,event_name',
-            'institute' => 'required',
-            'location' => 'required',
-            'mode' => 'required',
-            'end_date' => 'required',
-            'start_date' => 'required'
-        ], [
-            'event_name.required' => 'Event Name is required.',
-            'event_name.unique' => 'This event has already been requested.'
-        ]);
-    
-        // Fetch the student_id using the reg_no
-        $studentId = DB::table('students')->where('reg_no', $request->reg_no)->value('id');
-    
-        // Add the student_id to the data
-        $data = $request->except('_token');
-        $data['student_id'] = $studentId;
-    
-        // Create the new event request
-        EventRequest::create($data);
-    
-        return redirect()
-            ->route('events_req.index')
-            ->with('message', 'Event requested successfully!');
-    }
+        {
+            $request->validate([
+                'reg_no' => 'required',
+                'event_name' => 'required|unique:events_req,event_name',
+                'institute' => 'required',
+                'location' => 'required',
+                'mode' => 'required',
+                'end_date' => 'required',
+                'start_date' => 'required'
+            ], [
+                'event_name.required' => 'Event Name is required.',
+                'event_name.unique' => 'This event has already been requested.'
+            ]);
+        
+            // Fetch the student_id using the reg_no
+            $studentId = DB::table('students')->where('reg_no', $request->reg_no)->value('id');
+        
+            // Add the student_id to the data
+            $data = $request->except('_token');
+            $data['student_id'] = $studentId;
+        
+            // Create the new event request
+            EventRequest::create($data);
+        
+            return redirect()
+                ->route('events_req.index')
+                ->with('message', 'Event requested successfully!');
+        }
     
 
     /**
