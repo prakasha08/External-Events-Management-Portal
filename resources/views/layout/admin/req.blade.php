@@ -42,7 +42,7 @@
         <li><a href="{{route('admin_events_List.index')}}"  class="block py-2 px-3 text-base  N-active bg-gray-600 rounded hover:bg-gray-500">Event Status</a></li>
         <li><a href="{{route('admin_events_req.index')}}"
         class="block py-2 px-3 text-base active ">Event Requests</a></li>
-        <li><a href=""
+        <li><a href="{{route('admin_ira.index')}}"
                 class="block py-2 px-3 text-base N-active bg-gray-600 rounded hover:bg-gray-500">IRA</a></li>
     </ul>
 </div>

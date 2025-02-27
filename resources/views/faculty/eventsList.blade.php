@@ -1,4 +1,4 @@
-@extends('layout.admin.list')
+@extends('layout.faculty.list')
         @section('content')
         
         <div class="main-content flex-grow p-4">
@@ -18,11 +18,6 @@
                 <h2
                     class="text-xl text-center bg-gray-600 text-white p-3 rounded mb-6 font-bold">
                     List Of Approved & Rejected External Events</h2>
-                <div class="flex justify-end mb-4">
-                    <a href="{{ route('admin_events_List.create') }}" class="bg-gray-700 text-white hover:bg-gray-500 px-4 py-2 rounded">
-                        <i class="fa-solid fa-plus" style="color: #ffffff;"></i> New Event
-                    </a>
-                </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full border-collapse">
                         <thead>
@@ -34,8 +29,6 @@
                                 <th class="border p-3 text-center">IQAC Verification</th>
                                 <th class="border p-3 text-center">IRA Required</th>
                                 <th class="border p-3 text-center">View</th>
-                                <th class="border p-3 text-center">Edit</th>
-                                <th class="border p-3 text-center">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,21 +46,9 @@
                                 </td>
                                 <td class="border p-3 text-center">{{$event->ira}}</td>
                                 <td class="border p-3 text-center">
-                                    <a href="{{route('admin_events_List.show',$event->id)}}" class="cursor-pointer">
+                                    <a href="{{route('eventsList.show',$event->id)}}" class="cursor-pointer">
                                         <i class="fa-solid fa-eye"></i>
                                     </a>
-                                </td>
-                                <td class="border p-3 text-center">
-                                    <a href="{{route('admin_events_List.edit',$event->id)}}" class="cursor-pointer">
-                                        <i class="fa-solid fa-pen-to-square" style="color: #171717;"></i>
-                                    </a>
-                                </td>
-                                <td class="border p-3 text-center">
-                                    <form action="{{route('admin_events_List.delete',$event->id)}}" method="POST">   
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit"><i class="fa-solid fa-trash" style="color: #ff0000;"></i></button>
-                                    </form>
                                 </td>
                             </tr>
                             @endforeach

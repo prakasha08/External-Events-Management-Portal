@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\EventRequest;
 use App\Models\EventsList;
+use App\Models\faculty;
+use App\Models\iraList;
 use Illuminate\Http\Request;
 
 class Admin extends Controller
@@ -68,6 +70,34 @@ class Admin extends Controller
 
         return view('admin.events_req', compact('eventsReq'));
     }
+
+    public function events_create()
+    {
+        return view('admin.events_create');
+    }
+
+    public function events_store(Request $request)
+    {
+        $request->validate([
+            'eventname' => 'required',   // Corrected
+            'institute' => 'required',   // Corrected
+            'location' => 'required',    // Corrected
+            'mode' => 'required',        // Corrected
+            'enddate' => 'required',     // Corrected
+            'startdate' => 'required',   // Corrected
+            'status' => 'required',      // Corrected
+            'ira' => 'required'          // Corrected
+        ],['eventname.required' => 'Event Name Must Be requiered']);
+    
+        $data = $request->except('_token');
+    
+        // For Mass assignment
+        EventsList::create($data);
+    
+        return redirect()
+            ->route('admin_events_List.index')
+            ->withMessage('Event Created successfully!!');
+    }
     // Evaluate the event request
     public function evaluate($id)
     {
@@ -103,6 +133,38 @@ class Admin extends Controller
         return redirect()->route('admin_events_req.index')->with('message', 'Event request evaluated successfully!');
     }
 
+
+    public function ira_index()
+    {
+        // Eager load the 'student' relationship
+        $ira = iraList::with('student')->paginate(4);
+        return view('admin.ira_List', compact('ira'));
+    }
+
+    public function ira_show(iraList $event)
+{
+    $faculties = faculty::all();
+    return view('admin.ira_assign', compact('event', 'faculties'));
+}
+
+public function ira_assign(Request $request, $id)
+{
+    $request->validate([
+        'faculty_id' => 'required'
+    ]);
+
+    // Fetch the faculty name using the faculty_id
+    $facultyName = faculty::where('id', $request->faculty_id)->value('name');
+
+    // Update the iraList record with the faculty name
+    $eventReq = iraList::findOrFail($id);
+    // $eventReq->faculty->name = $facultyName;
+    $eventReq->faculty_id = $request->faculty_id;
+    $eventReq->save();
+
+    return redirect()->route('admin_ira.index')->with('message', 'Faculty Assigned successfully!');
+}
+    
     /**
      * Display a listing of the resource.
      */

@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class iraList extends Model
+class faculty extends Model
 {
     use HasFactory;
-    protected $table = 'ira';
+    protected $table = 'faculty';
     //For mass Assignments by mention each aattribute
     // protected $fillable = ['name','institute','location','mode','end_date','start_date'];
     //Mass Assignment by exception using guarded;
@@ -17,9 +17,5 @@ class iraList extends Model
     public function student()
     {
         return $this->belongsTo(Student::class, 'student_id');
-    }
-    public function faculty()
-    {
-        return $this->belongsTo(faculty::class, 'faculty_id');
     }
 }

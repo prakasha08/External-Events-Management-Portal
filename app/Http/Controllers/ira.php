@@ -16,7 +16,7 @@ class ira extends Controller
      */
     public function ira_index()
     {
-        $ira = iraList::orderBy('id', 'desc')->paginate(4);
+        $ira = iraList::with('student')->paginate(4);
         return view('student.ira_register', compact('ira'));
     }
 
@@ -29,36 +29,40 @@ class ira extends Controller
         return view('student.ira_register_create', compact('events'));
     }
 
+    public function ira_show(iraList $event)
+    {
+        return view('student.ira_register_show',compact('event'));
+    }
     /**
      * Store a newly created resource in storage.
      */
     public function ira_store(Request $request)
-{
-    $request->validate([
-        'student_name' => 'required',
-        'event_name' => 'required'
-    ]);
+    {
+        $request->validate([
+            'student_name' => 'required',
+            'event_name' => 'required'
+        ]);
 
-    // Fetch the student_id using the reg_no
-    $studentId = DB::table('students')->where('reg_no', $request->reg_no)->value('id');
+        // Fetch the student_id using the reg_no
+        $studentId = DB::table('students')->where('reg_no', $request->reg_no)->value('id');
 
-    // Fetch the event name using the event_id
-    $eventName = EventsList::where('id', $request->event_name)->value('event_name');
+        // Fetch the event name using the event_id
+        $eventName = EventsList::where('id', $request->event_name)->value('event_name');
 
-    // Add the student_id and event_name to the data
-    $data = [
-        'student_id' => $studentId,
-        'student_name' => $request->student_name,
-        'event_name' => $eventName
-    ];
+        // Add the student_id and event_name to the data
+        $data = [
+            'student_id' => $studentId,
+            'student_name' => $request->student_name,
+            'event_name' => $eventName
+        ];
 
-    // Create the new event request
-    iraList::create($data);
+        // Create the new event request
+        iraList::create($data);
 
-    return redirect()
-        ->route('ira.index')
-        ->with('message', 'Registration Successful!');
-}
+        return redirect()
+            ->route('ira.index')
+            ->with('message', 'Registration Successful!');
+    }
 
     /**
      * Display the specified resource.

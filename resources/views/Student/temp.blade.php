@@ -1,81 +1,142 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layout.admin.list')
+@section('content')
+ <div class="main-content flex-grow p-4">
+    <!-- Header -->
+    <div class="header flex items-center bg-gray-600 text-black p-4 rounded mb-6 relative">
+        <img src="C:\Herd\sample_project\resources\views\logo.png" alt="BIT Logo"
+            class="h-16 ml-10 lg:ml-0 md:ml-0 s">
+        <h1 class="text-xl ml-4">Prakash A</h1>
+        <i class="fa-solid fa-user-graduate text-2xl ml-2"></i>
+        <button id="toggleButton" class="text-3xl lg:hidden absolute right-4">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Portal</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Custom styles for status labels */
-        .status-approved {
-            background-color: #5cb85c;
-            color: #fff;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            text-align: center;
-        }
-
-        .status-rejected {
-            background-color: #d9534f;
-            color: #fff;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            text-align: center;
-        }
-    </style>
-</head>
-
-<body class="bg-gray-100 font-sans">
-    <!-- Main container -->
-    <div class="flex flex-col lg:flex-row">
-        <!-- Sidebar -->
-        <div id="sidebar"
-            class="sidebar bg-gray-700 text-white w-64 p-6 fixed lg:relative h-full lg:h-screen transform lg:translate-x-0 -translate-x-full transition-transform duration-300 z-20">
-            <div class="flex items-center mb-6">
-                <i class="fa-solid fa-handshake-angle text-3xl mr-2 text-black"></i>
-                <h2 class="text-2xl text-cyan-400 font-bold">EVENTS</h2>
-                <h3 class="text-lg text-black ml-1">PORTAL</h3>
+    <!-- Form Section -->
+    <div class="bg-white p-6 rounded shadow">
+        <h2 class="text-xl text-center bg-gray-600 text-white p-3 rounded mb-6 font-bold">Add New Event</h2>
+        <form class="forms" action="{{ route('events.store') }}" method="POST">
+            @csrf  
+            <!-- First Row with two inputs -->
+            <div class="flex flex-wrap -mx-2">
+                <div class="form-group w-full md:w-1/2 px-2 mb-4">
+                    @if($errors->first('eventname'))
+                        <span class="text-red-500 text-sm mt-1 block">
+                            <strong>{{ $errors->first('eventname') }}</strong>
+                        </span>
+                    @endif
+                    <label for="eventname" class="block text-sm font-medium text-gray-700">*Enter Event Name:</label>
+                    <input type="text" id="eventname" name="eventname" 
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2"    
+                        value="{{ old('eventname') }}">
+                </div>
+                <div class="form-group w-full md:w-1/2 px-2 mb-4">
+                    @if($errors->first('institute'))
+                        <span class="text-red-500 text-sm mt-1 block">
+                            <strong>{{ $errors->first('institute') }}</strong>
+                        </span>
+                    @endif
+                    <label for="institute" class="block text-sm font-medium text-gray-700">*Enter Institute:</label>
+                    <input type="text" id="institute" name="institute" 
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2"    
+                        value="{{ old('institute') }}">
+                </div>
             </div>
-            <ul class="space-y-4">
-                <li><a href="{{route('admin_events_List.index')}}"  
-                class="block py-2 px-3 text-base active bg-gray-600 rounded hover:bg-gray-500">Event Status</a></li>
-                <li><a href="{{route('admin_events_req.index')}}"
-                class="block py-2 px-3 text-base active bg-gray-600 rounded hover:bg-gray-500">Event Requests</a></li>
-            </ul>
-        </div> <!-- Closing sidebar div -->
 
-        @yield('content')
-    </div> 
-    <script>
-        const sidebar = document.getElementById('sidebar');
-        const toggleButton = document.getElementById('toggleButton');
+            <!-- Third Row with two inputs -->
+            <div class="flex flex-wrap -mx-2">
+                <div class="form-group w-full md:w-1/2 px-2 mb-4">
+                    @if($errors->first('location'))
+                        <span class="text-red-500 text-sm mt-1 block">
+                            <strong>{{ $errors->first('location') }}</strong>
+                        </span>
+                    @endif
+                    <label for="location" class="block text-sm font-medium text-gray-700">Event Location:</label>
+                    <input type="text" id="location" name="location"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2"    
+                        value="{{ old('location') }}">
+                </div>
+                <div class="form-group w-full md:w-1/2 px-2 mb-4">
+                    @if($errors->first('mode'))
+                        <span class="text-red-500 text-sm mt-1 block">
+                            <strong>{{ $errors->first('mode') }}</strong>
+                        </span>
+                    @endif
+                    <label for="mode" class="block text-sm font-medium text-gray-700">Event Mode:</label>
+                    <select id="mode" name="mode"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2"   >
+                        <option value="">Select Mode</option>
+                        <option value="Online" {{ old('mode') == 'Online' ? 'selected' : '' }}>Online</option>
+                        <option value="Offline" {{ old('mode') == 'Offline' ? 'selected' : '' }}>Offline</option>
+                    </select>
+                </div>
+            </div>
 
-        const checkWindowSize = () => {
-            if (window.innerWidth >= 768) {
-                sidebar.classList.remove('-translate-x-full');
-            } else {
-                sidebar.classList.add('-translate-x-full');
-            }
-        };
+            <!-- Fifth Row with two inputs -->
+            <div class="flex flex-wrap -mx-2">
+                <div class="form-group w-full md:w-1/2 px-2 mb-4">
+                    @if($errors->first('enddate'))
+                        <span class="text-red-500 text-sm mt-1 block">
+                            <strong>{{ $errors->first('enddate') }}</strong>
+                        </span>
+                    @endif
+                    <label for="enddate" class="block text-sm font-medium text-gray-700">*Ending Date:</label>
+                    <input type="date" id="enddate" name="enddate" 
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2"    
+                        value="{{ old('enddate') }}">
+                </div>
+                <div class="form-group w-full md:w-1/2 px-2 mb-4">
+                    @if($errors->first('startdate'))
+                        <span class="text-red-500 text-sm mt-1 block">
+                            <strong>{{ $errors->first('startdate') }}</strong>
+                        </span>
+                    @endif
+                    <label for="startdate" class="block text-sm font-medium text-gray-700">*Starting Date:</label>
+                    <input type="date" id="startdate" name="startdate" 
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2"    
+                        value="{{ old('startdate') }}">
+                </div>
+            </div>
 
-        checkWindowSize();
-        window.addEventListener('resize', checkWindowSize);
+            <!-- Sixth Row with two inputs -->
+            <div class="flex flex-wrap -mx-2">
+                <div class="form-group w-full md:w-1/2 px-2 mb-4">
+                    @if($errors->first('status'))
+                        <span class="text-red-500 text-sm mt-1 block">
+                            <strong>{{ $errors->first('status') }}</strong>
+                        </span>
+                    @endif
+                    <label for="status" class="block text-sm font-medium text-gray-700">*Status</label>
+                    <select id="status" name="status"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2"   >
+                        <option value="">Select</option>
+                        <option value="Approved" {{ old('status') == 'Approved' ? 'selected' : '' }}>Approved</option>
+                        <option value="Rejected" {{ old('status') == 'Rejected' ? 'selected' : '' }}>Rejected</option>
+                    </select>
+                </div>
+                <div class="form-group w-full md:w-1/2 px-2 mb-4">
+                    @if($errors->first('ira'))
+                        <span class="text-red-500 text-sm mt-1 block">
+                            <strong>{{ $errors->first('ira') }}</strong>
+                        </span>
+                    @endif
+                    <label for="ira" class="block text-sm font-medium text-gray-700">*IRA</label>
+                    <input type="radio" id="yes" value="yes" name="ira" class="mt-5 ml-2"   
+                        {{ old('ira') == 'yes' ? 'checked' : '' }}>
+                    <label for="yes">Yes</label>
 
-        if (toggleButton) {
-            toggleButton.addEventListener('click', () => {
-                sidebar.classList.toggle('-translate-x-full');
-            });
-
-            document.addEventListener('click', (event) => {
-                const isClickInsideSidebar = sidebar.contains(event.target);
-                const isClickOnToggle = toggleButton.contains(event.target);
-                if (!isClickInsideSidebar && !isClickOnToggle && !sidebar.classList.contains('-translate-x-full')) {
-                    sidebar.classList.add('-translate-x-full');
-                }
-            });
-        }
-    </script>
-</body>
-</html>
+                    <input type="radio" id="no" value="no" name="ira" class="ml-2"   
+                        {{ old('ira') == 'no' ? 'checked' : '' }}>
+                    <label for="no">No</label>
+                </div>
+            </div>
+            
+            <div class="flex justify-center">
+                <button type="submit" class="bg-gray-700 text-white px-12 py-2 rounded hover:bg-gray-500 transition-colors">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+@endsection

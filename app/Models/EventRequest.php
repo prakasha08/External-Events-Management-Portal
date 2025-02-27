@@ -9,10 +9,12 @@ class EventRequest extends Model
 {
     use HasFactory;
 
-    protected $table = 'events_req';
-    //For mass Assignments by mention each aattribute
-    protected $fillable = ['event_name','institute','location','mode','end_date','start_date','reg_no','student_id'];
-    //Mass Assignment by exception using guarded;
+   protected $table = 'events_req'; // Ensure this matches your database table name
+    protected $fillable = [
+        'faculty_id', 'faculty', 'department', 'special_lab',
+        'event_name', 'institute', 'location', 'mode',
+        'start_date', 'end_date'
+    ];
 
     public function student()
     {

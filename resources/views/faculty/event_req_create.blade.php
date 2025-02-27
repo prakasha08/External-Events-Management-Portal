@@ -1,27 +1,65 @@
-@extends('layout.admin.list')
+@extends('layout.faculty.req')
 @section('content')
 <div class="main-content flex-grow p-4">
     <!-- Header -->
     <div class="header flex items-center bg-gray-600 text-black p-4 rounded mb-6 relative">
         <img src="{{ asset('logo.png') }}" alt="BIT Logo" class="h-16 ml-10 lg:ml-0 md:ml-0 s">
-        <h1 class="text-xl ml-4">Admin Panel</h1>
-        <i class="fa-solid fa-user-shield text-2xl ml-[7px]"></i>
-        <button id="toggleButton" class="text-3xl hidden md:block absolute right-4">
+        <h1 class="text-xl ml-4">Prakash A</h1>
+        <i class="fa-solid fa-user-graduate text-2xl ml-2"></i>
+        <button id="toggleButton" class="text-3xl lg:hidden absolute right-4">
             <i class="fa-solid fa-bars"></i>
         </button>
     </div>
 
-    @if(session('message'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-3 mb-3">
-            {{ session('message') }}
-        </div>
-    @endif
-
     <!-- Form Section -->
     <div class="bg-white p-6 rounded shadow">
-        <h2 class="text-xl text-center bg-gray-600 text-white p-3 rounded mb-6 font-bold">Add New Event</h2>
-        <form class="forms" action="{{ route('admin_events_List.store') }}" method="POST">
+        <h2 class="text-xl text-center bg-gray-600 text-white p-3 rounded mb-6 font-bold">Request Event</h2>
+        <form class="forms" action="{{ route('faculty_events_req.store') }}" method="POST">
             @csrf  
+            <div class="flex flex-wrap -mx-2">
+                <div class="form-group w-full md:w-1/2 px-2 mb-4">
+                    @if($errors->first('faculty_id'))
+                    <span class="text-red-500 text-sm mt-1 block">
+                        <strong>{{ $errors->first('faculty_id') }}</strong>
+                    </span>
+                    @endif
+                    <label for="faculty_id" class="block text-sm font-medium text-gray-700">*Enter Faculty ID:</label>
+                    <input type="text" id="faculty_id" name="faculty_id" required
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ old('faculty_id') }}">
+                </div>
+                <div class="form-group w-full md:w-1/2 px-2 mb-4">
+                    @if($errors->first('faculty'))
+                    <span class="text-red-500 text-sm mt-1 block">
+                        <strong>{{ $errors->first('faculty') }}</strong>
+                    </span>
+                    @endif
+                    <label for="faculty" class="block text-sm font-medium text-gray-700">*Enter Your Name:</label>
+                    <input type="text" id="faculty" name="faculty" required
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ old('faculty') }}">
+                </div>
+            </div>
+            <div class="flex flex-wrap -mx-2">
+                <div class="form-group w-full md:w-1/2 px-2 mb-4">
+                    @if($errors->first('department'))
+                    <span class="text-red-500 text-sm mt-1 block">
+                        <strong>{{ $errors->first('department') }}</strong>
+                    </span>
+                    @endif
+                    <label for="department" class="block text-sm font-medium text-gray-700">*Enter Department:</label>
+                    <input type="text" id="department" name="department" required
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ old('department') }}">
+                </div>
+                <div class="form-group w-full md:w-1/2 px-2 mb-4">
+                    @if($errors->first('special_lab'))
+                    <span class="text-red-500 text-sm mt-1 block">
+                        <strong>{{ $errors->first('special_lab') }}</strong>
+                    </span>
+                    @endif
+                    <label for="special_lab" class="block text-sm font-medium text-gray-700">*Enter Special Lab:</label>
+                    <input type="text" id="special_lab" name="special_lab" required
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ old('special_lab') }}">
+                </div>
+            </div>
             <!-- First Row with two inputs -->
             <div class="flex flex-wrap -mx-2">
                 <div class="form-group w-full md:w-1/2 px-2 mb-4">
@@ -102,39 +140,6 @@
                         value="{{ old('start_date') }}">
                 </div>
             </div>
-
-            <!-- Sixth Row with two inputs -->
-            <div class="flex flex-wrap -mx-2">
-                <div class="form-group w-full md:w-1/2 px-2 mb-4">
-                    @if($errors->first('status'))
-                        <span class="text-red-500 text-sm mt-1 block">
-                            <strong>{{ $errors->first('status') }}</strong>
-                        </span>
-                    @endif
-                    <label for="status" class="block text-sm font-medium text-gray-700">*Status</label>
-                    <select id="status" name="status"
-                        class="mt-1 block w-full border border-gray-300 rounded-md p-2"   >
-                        <option value="">Select</option>
-                        <option value="Approved" {{ old('status') == 'Approved' ? 'selected' : '' }}>Approved</option>
-                        <option value="Rejected" {{ old('status') == 'Rejected' ? 'selected' : '' }}>Rejected</option>
-                    </select>
-                </div>
-                <div class="form-group w-full md:w-1/2 px-2 mb-4">
-                    @if($errors->first('ira'))
-                        <span class="text-red-500 text-sm mt-1 block">
-                            <strong>{{ $errors->first('ira') }}</strong>
-                        </span>
-                    @endif
-                    <label for="ira" class="block text-sm font-medium text-gray-700">*IRA</label>
-                    <input type="radio" id="yes" value="yes" name="ira" class="mt-5 ml-2"   
-                        {{ old('ira') == 'yes' ? 'checked' : '' }}>
-                    <label for="yes">Yes</label>
-
-                    <input type="radio" id="no" value="no" name="ira" class="ml-2"   
-                        {{ old('ira') == 'no' ? 'checked' : '' }}>
-                    <label for="no">No</label>
-                </div>
-            </div>
             
             <div class="flex justify-center">
                 <button type="submit" class="bg-gray-700 text-white px-12 py-2 rounded hover:bg-gray-500 transition-colors">
@@ -144,15 +149,4 @@
         </form>
     </div>
 </div>
-
-<script>
-    document.getElementById('status').addEventListener('change', function () {
-        var descriptionField = document.getElementById('description');
-        if (this.value === 'rejected') {
-            descriptionField.removeAttribute('disabled');
-        } else {
-            descriptionField.setAttribute('disabled', 'disabled');
-        }
-    });
-</script>
 @endsection

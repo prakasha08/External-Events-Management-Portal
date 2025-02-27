@@ -1,4 +1,4 @@
-@extends('layout.ira_css')
+@extends('layout.admin.ira_css')
 @section('content')
 <div class="main-content flex-grow p-4">
     <!-- Header with Toggle Button -->
@@ -19,12 +19,7 @@
 
     <!-- Table Section -->
     <div class="table-div bg-white p-6 rounded shadow">
-        <h2 class="text-xl text-center bg-gray-600 text-white p-3 rounded mb-6 font-bold">Ira Registration</h2>
-        <div class="flex justify-end mb-4">
-            <a href="{{ route('ira.create') }}"  class="bg-gray-700 text-white hover:bg-gray-500 px-4 py-2 rounded">
-                <i class="fa-solid fa-plus" style="color: #ffffff;"></i> Register
-            </a>
-        </div>
+        <h2 class="text-xl text-center bg-gray-600 text-white p-3 rounded mb-6 font-bold">Ira Registered Students</h2>
         <div class="overflow-x-auto">
             <table class="min-w-full border-collapse">
                 <thead>
@@ -52,7 +47,7 @@
                             <td class="border p-3 text-center">{{ $eventReq->student_name}}</td>
                             <td class="border p-3 text-center">{{ $eventReq->event_name ?? 'N/A' }}</td>
                             <td class="border p-3 text-center">{{ $eventReq->status  ?? 'Pending'}}</td>
-                            <td class="border p-3 text-center">{{ $eventReq->faculty ?? 'Not Assigned'}}</td>
+                            <td class="border p-3 text-center">{{ $eventReq->faculty->name ?? 'Not Assigned'}}</td>
                             <td class="border p-3 text-center">
                                     <a href="{{route('admin_ira.show',$eventReq->id)}}" class="cursor-pointer">
                                         <i class="fa-solid fa-eye"></i>
