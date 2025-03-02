@@ -14,7 +14,7 @@
     <div class="bg-white p-6 rounded shadow">
         <h2 class="text-xl text-center bg-gray-600 text-white p-3 rounded mb-6 font-bold">{{ $event->event_name }}</h2>
         <form action="{{ route('admin_ira.assign', $event->id) }}" method="POST">
-             
+             @csrf
             <!-- First Row with two inputs -->
             <div class="flex flex-wrap -mx-2">
                 <div class="form-group w-full md:w-1/2 px-2 mb-4">   

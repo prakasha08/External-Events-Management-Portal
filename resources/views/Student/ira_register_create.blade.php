@@ -18,6 +18,20 @@
             @csrf  
             <div class="flex flex-wrap -mx-2">
                 <div class="form-group w-full md:w-1/2 px-2 mb-4">
+                            @if($errors->first('student_id'))
+                            <span class="text-red-500 text-sm mt-1 block">
+                                <strong>{{ $errors->first('student_id') }}</strong>
+                            </span>
+                            @endif
+                            <label for="student_id" class="block text-sm font-medium text-gray-700">*Select Student:</label>
+                            <select id="student_id" name="student_id" class="mt-1 block w-full border border-gray-300 rounded-md p-2" onchange="fetchStudentDetails(this.value)">
+                                <option value="">Select</option>
+                                @foreach($students as $student)
+                                    <option value="{{ $student->id }}">{{ $student->name }}</option>
+                                @endforeach
+                            </select>
+                </div>
+                <div class="form-group w-full md:w-1/2 px-2 mb-4">
                     @if($errors->first('reg_no'))
                     <span class="text-red-500 text-sm mt-1 block">
                         <strong>{{ $errors->first('reg_no') }}</strong>
@@ -26,16 +40,6 @@
                     <label for="reg_no" class="block text-sm font-medium text-gray-700">*Enter your Reg No:</label>
                     <input type="text" id="reg_no" name="reg_no" required
                         class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ old('reg_no') }}">
-                </div>
-                <div class="form-group w-full md:w-1/2 px-2 mb-4">
-                    @if($errors->first('student_name'))
-                    <span class="text-red-500 text-sm mt-1 block">
-                        <strong>{{ $errors->first('student_name') }}</strong>
-                    </span>
-                    @endif
-                    <label for="student_name" class="block text-sm font-medium text-gray-700">*Enter Your Name:</label>
-                    <input type="text" id="student_name" name="student_name" required
-                        class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ old('student_name') }}">
                 </div>
             </div>
 
@@ -76,4 +80,15 @@
         </form>
     </div>
 </div>
+<script>
+function fetchStudentDetails(studentId) {
+    if (studentId) {
+        fetch(`/students/${studentId}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('reg_no').value = data.reg_no;
+            });
+    }
+}
+</script>
 @endsection

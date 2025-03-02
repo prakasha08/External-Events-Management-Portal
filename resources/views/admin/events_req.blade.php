@@ -26,7 +26,8 @@
                     <tr class="bg-gray-200 text-black">
                         <th class="border p-3 text-center">S.no</th>
                         <th class="border p-3 text-center">Event Name</th>
-                        <th class="border p-3 text-center">Student Name</th>
+                        <th class="border p-3 text-center">Student</th>
+                        <th class="border p-3 text-center">Faculty</th>
                         <th class="border p-3 text-center">Institute</th>
                         <th class="border p-3 text-center">Location</th>
                         <th class="border p-3 text-center">Mode</th>
@@ -52,6 +53,9 @@
             <td class="border p-3 text-center">{{ $eventReq->event_name }}</td>
             <td class="border p-3 text-center">
                 {{ $eventReq->student ? $eventReq->student->name : 'N/A' }}
+            </td>
+            <td class="border p-3 text-center">
+                {{ $eventReq->faculty ? $eventReq->faculty->name : 'N/A' }}
             </td>
             <td class="border p-3 text-center">{{ $eventReq->institute }}</td>
             <td class="border p-3 text-center">{{ $eventReq->location }}</td>

@@ -9,6 +9,8 @@ use App\Models\EventsList;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Unique;
 use Illuminate\Support\Facades\DB;
+use App\Models\faculty;
+use App\Models\student;
 
 class Events_request extends Controller
 {
@@ -36,7 +38,8 @@ class Events_request extends Controller
      */
     public function create()
     {
-        return view('student.event_req_create');
+        $students = student::all();
+        return view('student.event_req_create', compact('students'));
     }
 
     /**
@@ -45,7 +48,7 @@ class Events_request extends Controller
     public function store(Request $request)
         {
             $request->validate([
-                'reg_no' => 'required',
+                'student_id' => 'required',
                 'event_name' => 'required|unique:events_req,event_name',
                 'institute' => 'required',
                 'location' => 'required',
@@ -57,12 +60,9 @@ class Events_request extends Controller
                 'event_name.unique' => 'This event has already been requested.'
             ]);
         
-            // Fetch the student_id using the reg_no
-            $studentId = DB::table('students')->where('reg_no', $request->reg_no)->value('id');
-        
+            // Fetch the student_id using the reg_no        
             // Add the student_id to the data
             $data = $request->except('_token');
-            $data['student_id'] = $studentId;
         
             // Create the new event request
             EventRequest::create($data);
@@ -72,6 +72,13 @@ class Events_request extends Controller
                 ->with('message', 'Event requested successfully!');
         }
     
+
+        
+        public function getStudentDetails($id)
+        {
+            $student = student::find($id);
+            return response()->json($student);
+        }
 
     /**
      * Display the specified resource.

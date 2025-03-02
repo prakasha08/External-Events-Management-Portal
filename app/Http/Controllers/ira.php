@@ -16,7 +16,7 @@ class ira extends Controller
      */
     public function ira_index()
     {
-        $ira = iraList::with('student')->paginate(4);
+        $ira = iraList::with(['student', 'faculty', 'event'])->paginate(4);
         return view('student.ira_register', compact('ira'));
     }
 
@@ -26,7 +26,8 @@ class ira extends Controller
     public function ira_create()
     {   
         $events = EventsList::where('status', 'Approved')->where('ira', 'Yes')->get();
-        return view('student.ira_register_create', compact('events'));
+        $students = student::all();
+        return view('student.ira_register_create', compact('events','students'));
     }
 
     public function ira_show(iraList $event)
@@ -38,31 +39,25 @@ class ira extends Controller
      */
     public function ira_store(Request $request)
     {
+        // dd($request->all()); // Debugging step to check incoming data
+
         $request->validate([
-            'student_name' => 'required',
-            'event_name' => 'required'
+            'student_id' => 'required',
+            'event_name ' => 'required'
         ]);
 
-        // Fetch the student_id using the reg_no
-        $studentId = DB::table('students')->where('reg_no', $request->reg_no)->value('id');
-
-        // Fetch the event name using the event_id
-        $eventName = EventsList::where('id', $request->event_name)->value('event_name');
-
-        // Add the student_id and event_name to the data
         $data = [
-            'student_id' => $studentId,
-            'student_name' => $request->student_name,
-            'event_name' => $eventName
+            'student_id' => $request->student_id,
+            'event_id' => $request->event_name
         ];
 
-        // Create the new event request
         iraList::create($data);
 
         return redirect()
             ->route('ira.index')
             ->with('message', 'Registration Successful!');
     }
+
 
     /**
      * Display the specified resource.

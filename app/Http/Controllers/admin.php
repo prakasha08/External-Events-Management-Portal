@@ -66,7 +66,7 @@ class Admin extends Controller
     public function eventsReq_index()
     {
         // Eager load the 'student' relationship
-        $eventsReq = EventRequest::with('student')->orderBy('created_at', 'desc')->paginate(4);
+        $eventsReq = EventRequest::with(['student', 'faculty'])->orderBy('created_at', 'desc')->paginate(4);
 
         return view('admin.events_req', compact('eventsReq'));
     }
@@ -110,7 +110,6 @@ class Admin extends Controller
         $request->validate([
             'status' => 'required',
             'ira' => 'required',
-            'description' => 'required_if:status,rejected'
         ]);
 
         $eventReq = EventRequest::findOrFail($id);
@@ -137,7 +136,7 @@ class Admin extends Controller
     public function ira_index()
     {
         // Eager load the 'student' relationship
-        $ira = iraList::with('student')->paginate(4);
+        $ira = iraList::with(['student', 'faculty', 'event'])->paginate(4);
         return view('admin.ira_List', compact('ira'));
     }
 

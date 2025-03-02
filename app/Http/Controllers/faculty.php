@@ -33,42 +33,51 @@ class faculty extends Controller
 
     public function create()
     {
-        return view('faculty.event_req_create');
+        
+        $faculties = AppModelsFaculty::all();
+        return view('faculty.event_req_create', compact('faculties'));
+    }
+
+    public function getFacultyDetails($id)
+    {
+        $faculty = AppModelsFaculty::find($id);
+        return response()->json([
+            'faculty_id' => $faculty->faculty_id,
+            'department' => $faculty->department,
+        ]);
     }
 
     public function store(Request $request)
     {
-                // Validate Input
-                $request->validate([
-                    'faculty_id' => 'required',
-                    'faculty' => 'required',
-                    'event_name' => 'required',
-                    'institute' => 'required',
-                    'location' => 'nullable',
-                    'mode' => 'required',
-                    'start_date' => 'required|date',
-                    'end_date' => 'required|date|after_or_equal:start_date',
-                ]);
-        
-                // Store data in database
-                EventRequest::create([
-                    'faculty_id' => $request->faculty_id,
-                    'faculty' => $request->faculty,
-                    'event_name' => $request->event_name,
-                    'institute' => $request->institute,
-                    'location' => $request->location,
-                    'mode' => $request->mode,
-                    'start_date' => $request->start_date,
-                    'end_date' => $request->end_date,
-                ]);
-        
-                return redirect()->route('faculty_events_req.index')->with('success', 'Event Request Submitted Successfully!');
-        }
+        // Validate Input
+        $request->validate([
+            'faculty_id' => 'required',
+            'event_name' => 'required|unique:events_req,event_name',
+            'institute' => 'required',
+            'location' => 'required',
+            'mode' => 'required',
+            'end_date' => 'required',
+            'start_date' => 'required'
+        ], [
+            'event_name.required' => 'Event Name is required.',
+            'event_name.unique' => 'This event has already been requested.'
+        ]);
+    
+        // Fetch the student_id using the reg_no        
+        // Add the student_id to the data
+        $data = $request->except('_token');
+    
+        // Create the new event request
+        EventRequest::create($data);
+    
+        return redirect()
+            ->route('faculty_events_req.index')
+            ->with('message', 'Event requested successfully!');
+    }
         
 
     public function show($event_name)
     {
-        // Find the event request by event_name or use appropriate identifier
         $req_details = EventRequest::where('event_name', $event_name)->firstOrFail();
         
         return view('faculty.event_req_show', compact('req_details'));

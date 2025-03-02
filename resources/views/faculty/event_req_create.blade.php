@@ -18,24 +18,18 @@
             @csrf  
             <div class="flex flex-wrap -mx-2">
                 <div class="form-group w-full md:w-1/2 px-2 mb-4">
-                    @if($errors->first('faculty_id'))
+                    @if($errors->first('faculty_select'))
                     <span class="text-red-500 text-sm mt-1 block">
-                        <strong>{{ $errors->first('faculty_id') }}</strong>
+                        <strong>{{ $errors->first('faculty_select') }}</strong>
                     </span>
                     @endif
-                    <label for="faculty_id" class="block text-sm font-medium text-gray-700">*Enter Faculty ID:</label>
-                    <input type="text" id="faculty_id" name="faculty_id" required
-                        class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ old('faculty_id') }}">
-                </div>
-                <div class="form-group w-full md:w-1/2 px-2 mb-4">
-                    @if($errors->first('faculty'))
-                    <span class="text-red-500 text-sm mt-1 block">
-                        <strong>{{ $errors->first('faculty') }}</strong>
-                    </span>
-                    @endif
-                    <label for="faculty" class="block text-sm font-medium text-gray-700">*Enter Your Name:</label>
-                    <input type="text" id="faculty" name="faculty" required
-                        class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ old('faculty') }}">
+                    <label for="faculty_select" class="block text-sm font-medium text-gray-700">*Select Faculty:</label>
+                    <select id="faculty_select" name="faculty_select" class="mt-1 block w-full border border-gray-300 rounded-md p-2" onchange="fetchFacultyDetails(this.value)">
+                        <option value="">Select</option>
+                        @foreach($faculties as $faculty)
+                            <option value="{{ $faculty->id }}">{{ $faculty->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
             <div class="flex flex-wrap -mx-2">
@@ -46,21 +40,19 @@
                     </span>
                     @endif
                     <label for="department" class="block text-sm font-medium text-gray-700">*Enter Department:</label>
-                    <input type="text" id="department" name="department" required
-                        class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ old('department') }}">
+                    <input type="text" id="department" name="department" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ old('department') }}">
                 </div>
                 <div class="form-group w-full md:w-1/2 px-2 mb-4">
-                    @if($errors->first('special_lab'))
+                    @if($errors->first('faculty_id'))
                     <span class="text-red-500 text-sm mt-1 block">
-                        <strong>{{ $errors->first('special_lab') }}</strong>
+                        <strong>{{ $errors->first('faculty_id') }}</strong>
                     </span>
                     @endif
-                    <label for="special_lab" class="block text-sm font-medium text-gray-700">*Enter Special Lab:</label>
-                    <input type="text" id="special_lab" name="special_lab" required
-                        class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ old('special_lab') }}">
+                    <label for="faculty_id" class="block text-sm font-medium text-gray-700">Faculty ID</label>
+                    <input type="text" id="faculty_id" name="faculty_id" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ old('faculty_id') }}">
                 </div>
             </div>
-            <!-- First Row with two inputs -->
+            <!-- Other form fields -->
             <div class="flex flex-wrap -mx-2">
                 <div class="form-group w-full md:w-1/2 px-2 mb-4">
                     @if($errors->first('event_name'))
@@ -149,4 +141,17 @@
         </form>
     </div>
 </div>
+        
+<script>
+function fetchFacultyDetails(facultyId) {
+    if (facultyId) {
+        fetch(`/faculties/${facultyId}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('faculty_id').value = data.faculty_id;
+                document.getElementById('department').value = data.department;
+            });
+    }
+}
+</script>
 @endsection

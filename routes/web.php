@@ -13,6 +13,7 @@ Route::get('/', function () {
 
 Route::get('/student/events_req',[Events_request::class,'index'])->name('events_req.index');
 Route::get('/student/events_req/create',[Events_request::class,'create'])->name('events_req.create');
+Route::get('/students/{id}', [Events_request::class, 'getStudentDetails']);
 Route::post('/student/events_req/store',[Events_request::class,'store'])->name('events_req.store');
 Route::get('/student/events_req/{event_name}', [Events_request::class, 'show'])->name('events_req.show');
 Route::get('/student/eventsList', [Events_request::class, 'events_index'])->name('eventsList.index');
@@ -22,6 +23,7 @@ Route::get('/admin/events_req/{id}/evaluate', [admin::class, 'evaluate'])->name(
 Route::post('/admin/events_req/{id}/evaluate', [admin::class, 'storeEvaluation'])->name('events_req.storeEvaluation');
 Route::get('/student/ira', [ira::class, 'ira_index'])->name('ira.index');
 Route::get('/student/ira/create', [ira::class, 'ira_create'])->name('ira.create');
+Route::get('/students/{id}', [ira::class, 'StudentDetails']);
 Route::post('/student/ira/store', [ira::class, 'ira_store'])->name('ira.store');
 Route::get('/ira/{event}', [ira::class, 'ira_show'])->name('ira.show');
 
@@ -38,6 +40,7 @@ Route::post('/admin/ira/{id}/assign', [admin::class, 'ira_assign'])->name('admin
 
 Route::get('/faculty/events_req',[faculty::class,'index'])->name('faculty_events_req.index');
 Route::get('/faculty/events_req/create',[faculty::class,'create'])->name('faculty_events_req.create');
+Route::get('/faculties/{id}', [faculty::class, 'getFacultyDetails']);
 Route::post('/faculty/events_req/store',[faculty::class,'store'])->name('faculty_events_req.store');
 Route::get('/faculty/events_req/{event_name}', [faculty::class, 'show'])->name('faculty_events_req.show');
 Route::get('/faculty/eventsList', [faculty::class, 'events_index'])->name('faculty_eventsList.index');

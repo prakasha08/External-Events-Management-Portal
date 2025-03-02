@@ -49,10 +49,10 @@
                     @foreach($ira as $key => $eventReq)
                         <tr class="hover:bg-gray-100">
                             <td class="border p-3 text-center">{{ $key + 1 }}</td>
-                            <td class="border p-3 text-center">{{ $eventReq->student_name}}</td>
-                            <td class="border p-3 text-center">{{ $eventReq->event_name ?? 'N/A' }}</td>
+                            <td class="border p-3 text-center">{{ $eventReq->student->name}}</td>
+                            <td class="border p-3 text-center">{{ $eventReq->event->name ?? 'N/A' }}</td>
                             <td class="border p-3 text-center">{{ $eventReq->status  ?? 'Pending'}}</td>
-                            <td class="border p-3 text-center">{{ $eventReq->faculty ?? 'Not Assigned'}}</td>
+                            <td class="border p-3 text-center">{{ $eventReq->faculty->name  ?? 'Not Assigned'}}</td>
                             <td class="border p-3 text-center">
                                     <a href="{{route('admin_ira.show',$eventReq->id)}}" class="cursor-pointer">
                                         <i class="fa-solid fa-eye"></i>
