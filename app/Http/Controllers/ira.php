@@ -16,7 +16,7 @@ class ira extends Controller
      */
     public function ira_index()
     {
-        $ira = iraList::with(['student', 'faculty', 'event'])->paginate(4);
+        $ira = iraList::paginate(4);
         return view('student.ira_register', compact('ira'));
     }
 
@@ -37,34 +37,33 @@ class ira extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function ira_store(Request $request)
-    {
-        // dd($request->all()); // Debugging step to check incoming data
+        public function ira_store(Request $request)
+        {
+            // dd($request->all());
+            $request->validate([
+                'student_id' => 'required',
+                'event_id' => 'required'
+            ]);
 
-        $request->validate([
-            'student_id' => 'required',
-            'event_name ' => 'required'
-        ]);
+            $data = [
+                'student_id' => $request->student_id,
+                'event_id' => $request->event_id,
+            ];
 
-        $data = [
-            'student_id' => $request->student_id,
-            'event_id' => $request->event_name
-        ];
+            iraList::create($data);
 
-        iraList::create($data);
+            return redirect('/student/ira')->with('message', 'Registration Successful!');
 
-        return redirect()
-            ->route('ira.index')
-            ->with('message', 'Registration Successful!');
-    }
+        }
 
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function ira_result()
     {
-        //
+        $eventsReq = iraList::whereNotNull('status')->paginate(4);
+        return view('faculty.ira_results', compact('eventsReq'));
     }
 
     /**

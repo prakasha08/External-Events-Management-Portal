@@ -47,7 +47,7 @@
                             class="block py-2 px-3 text-base active">IRA</a></li>
                         <li><a href="{{route('faculty_ira.index')}}"
                             class="block py-2 px-3 text-base active">Evaluation</a></li>
-                        <li><a href=""
+                        <li><a href="{{route('faculty_ira.result')}}"
                                 class="block py-2 px-3 text-base N-active bg-gray-600 rounded hover:bg-gray-500">IRA Result</a></li>
             </ul>
         </div>

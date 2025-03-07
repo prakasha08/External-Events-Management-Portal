@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\EventRequest;
 use App\Models\EventsList;
 use App\Models\faculty;
+use App\Models\student;
 use App\Models\iraList;
 use Illuminate\Http\Request;
 
@@ -143,7 +144,8 @@ class Admin extends Controller
     public function ira_show(iraList $event)
 {
     $faculties = faculty::all();
-    return view('admin.ira_assign', compact('event', 'faculties'));
+    $students = student::all();
+    return view('admin.ira_assign', compact('event', 'faculties', 'students'));
 }
 
 public function ira_assign(Request $request, $id)

@@ -4,7 +4,7 @@
     <!-- Header -->
     <div class="header flex items-center bg-gray-600 text-black p-4 rounded mb-6 relative">
         <img src="{{ asset('logo.png') }}" alt="BIT Logo" class="h-16 ml-10 lg:ml-0 md:ml-0 s">
-        <h1 class="text-xl ml-4">Prakash A</h1>
+        <h1 class="text-xl ml-4">{{ session('name') }}</h1>
         <i class="fa-solid fa-user-graduate text-2xl ml-2"></i>
         <button id="toggleButton" class="text-3xl lg:hidden absolute right-4">
             <i class="fa-solid fa-bars"></i>
@@ -19,7 +19,7 @@
             <div class="flex flex-wrap -mx-2">
                 <div class="form-group w-full md:w-1/2 px-2 mb-4">   
                     <label for="student_name" class="block text-sm font-medium text-gray-700">Name:</label>
-                    <input type="text" id="student_name" name="student_name" value="{{ $event->student_name }}" readonly
+                    <input type="text" id="student_name" name="student_name" value="{{ $event->student->name}}" readonly
                         class="mt-1 block w-full border border-gray-300 rounded-md p-2">
                 </div>
                 <div class="form-group w-full md:w-1/2 px-2 mb-4">   

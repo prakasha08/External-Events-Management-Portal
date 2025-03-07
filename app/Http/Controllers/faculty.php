@@ -9,6 +9,7 @@ use App\Models\faculty as AppModelsFaculty;
 use App\Models\iraList;
 use App\Models\ModelsFaculty;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -85,13 +86,46 @@ class faculty extends Controller
 
     public function ira_index()
     {
-        $eventsReq = iraList::paginate(4);
+        // $eventsReq = iraList::whereNotNull('status')->paginate(4);
+        $faculty = AppModelsFaculty::where('mail_id', Auth::user()->email)->first();
+        $eventsReq = iraList::where('faculty_id', $faculty->id)->whereNotNull('status')->paginate(4);
         return view('faculty.ira', compact('eventsReq'));
     }
 
     public function ira_evaluate()
     {
-        $faculties = AppModelsFaculty::all();
-        return view('faculty.ira_evaluation', compact('faculties'));
+        $user = Auth::user();
+        // Find the faculty with the same email as the logged-in user's email
+        $faculty = AppModelsFaculty::where('mail_id', $user->email)->first();
+        $iralist = iraList::where('faculty_id', $faculty->id)->whereNull('status')->get();
+        $eventlist = iraList::where('faculty_id', $faculty->id)->distinct('event_id')->get();
+        // Fetch only the student_id and student_name
+        // dd($studentsArray);
+
+        // $studentsArray = $students->pluck('student_id')->toArray();
+    
+        // Check if faculty exists
+        if (!$faculty) {
+            // If no faculty is found with the email, you can return an error message or redirect
+            return redirect()->back()->with('error', 'No faculty found for this user.');
+        }
+        // dd($studentsArray);
+        return view('faculty.ira_evaluation', compact('faculty','iralist','eventlist'));
+    }
+    public function ira_evaluate_store(Request $request)
+    {
+        // dd($request);
+        $request->validate([
+            'status' => 'required',
+            'student_id' => 'required',
+            'event_id' => 'required'
+        ]);
+        $eventReq = iraList::where('student_id', $request->student_id)
+                  ->where('event_id', $request->event_id)
+                  ->firstOrFail(); 
+        $eventReq->status = $request->status;
+        $eventReq->save();
+    
+        return redirect()->route('faculty_ira.index')->with('message', 'Evaluation Done for $request->student_id');
     }
 }

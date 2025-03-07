@@ -1,4 +1,4 @@
-@extends('layout.admin.ira_css')
+@extends('layout.admin.ira_results')
 @section('content')
 <div class="main-content flex-grow p-4">
     <!-- Header with Toggle Button -->
@@ -10,48 +10,53 @@
             <i class="fa-solid fa-bars"></i>
         </button>
     </div>
-    
+
     @if(session('message'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-3 mb-3">
             {{ session('message') }}
         </div>
     @endif
-
+    
     <!-- Table Section -->
     <div class="table-div bg-white p-6 rounded shadow">
-        <h2 class="text-xl text-center bg-gray-600 text-white p-3 rounded mb-6 font-bold">Ira Registered Students</h2>
+        <h2 class="text-xl text-center bg-gray-600 text-white p-3 rounded mb-6 font-bold">Evaluated List</h2>
+        <div class="flex justify-end mb-4">
+            <a href="{{route('faculty_ira_evaluate.index')}}" class="bg-gray-700 text-white hover:bg-gray-500 px-4 py-2 rounded">
+                <i class="fa-solid fa-plus" style="color: #ffffff;"></i> New
+            </a>
+        </div>
         <div class="overflow-x-auto">
             <table class="min-w-full border-collapse">
                 <thead>
                     <tr class="bg-gray-200 text-black">
                         <th class="border p-3 text-center">S.no</th>
-                        <th class="border p-3 text-center">Name</th>
+                        <th class="border p-3 text-center">Student Name</th>
+                        <th class="border p-3 text-center">Reg No</th>
                         <th class="border p-3 text-center">Event Name</th>
-                        <th class="border p-3 text-center">IRA Status</th>
-                        <th class="border p-3 text-center">Faculty</th>
+                        <th class="border p-3 text-center">Result</th>
                         <th class="border p-3 text-center">View</th>
                     </tr>
                 </thead>
                 <tbody>
-                @if($ira->isEmpty())
+                @if($eventsReq->isEmpty() || !$eventsReq->contains('status', true))
                     <tr>
                         <td colspan="10" class="text-center py-10">
                         <img src="{{ asset('no_event.png') }}" alt="No Events" class="mx-auto">
-                        <p class="mt-4 text-gray-500">No ira booked have been made yet.</p>
+                        <p class="mt-4 text-gray-500">No Student Evaluated!</p>
                         </td>
                     </tr>
                 @else
-                    @foreach($ira as $key => $eventReq)
+                    @foreach($eventsReq as $key => $eventReq)
                         <tr class="hover:bg-gray-100">
                             <td class="border p-3 text-center">{{ $key + 1 }}</td>
-                            <td class="border p-3 text-center">{{ $eventReq->student->name}}</td>
-                            <td class="border p-3 text-center">{{ $eventReq->event_name ?? 'N/A' }}</td>
-                            <td class="border p-3 text-center">{{ $eventReq->status  ?? 'Pending'}}</td>
-                            <td class="border p-3 text-center">{{ $eventReq->faculty->name ?? 'Not Assigned'}}</td>
+                            <td class="border p-3 text-center">{{ $eventReq->student->name }}</td>
+                            <td class="border p-3 text-center">{{ $eventReq->student->reg_no }}</td>
+                            <td class="border p-3 text-center">{{ $eventReq->event->event_name }}</td>
+                            <td class="border p-3 text-center">{{ $eventReq->status }}</td>
                             <td class="border p-3 text-center">
-                                    <a href="{{route('admin_ira.show',$eventReq->id)}}" class="cursor-pointer">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
+                                <a href="{{ route('faculty_events_req.show', $eventReq->event->event_name) }}" class="cursor-pointer">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach
@@ -63,18 +68,18 @@
                 <nav aria-label="Page navigation" class="container max-w-full">
                     <ul class="pagination flex justify-center items-center space-x-2">
                         <!-- Previous Page Link -->
-                        @if ($ira->onFirstPage())
+                        @if ($eventsReq->onFirstPage())
                             <li class="disabled">
                                 <span class="px-4 py-2 bg-gray-300 text-gray-600 cursor-not-allowed rounded-full">Previous</span>
                             </li>
                         @else
                             <li>
-                                <a href="{{ $ira->previousPageUrl() }}" class="px-4 py-2 bg-gray-700 text-white hover:bg-gray-500 rounded-full">Previous</a>
+                                <a href="{{ $eventsReq->previousPageUrl() }}" class="px-4 py-2 bg-gray-700 text-white hover:bg-gray-500 rounded-full">Previous</a>
                             </li>
                         @endif
 
                         <!-- Pagination Links -->
-                        @foreach ($ira->links()->elements as $element)
+                        @foreach ($eventsReq->links()->elements as $element)
                             @if (is_string($element))
                                 <li>
                                     <span class="px-4 py-2 bg-gray-300 text-gray-600 rounded-full">{{ $element }}</span>
@@ -83,7 +88,7 @@
 
                             @if (is_array($element))
                                 @foreach ($element as $page => $url)
-                                    @if ($page == $ira->currentPage())
+                                    @if ($page == $eventsReq->currentPage())
                                         <li>
                                             <span class="px-4 py-2 bg-black text-white rounded-full">{{ $page }}</span>
                                         </li>
@@ -97,9 +102,9 @@
                         @endforeach
 
                         <!-- Next Page Link -->
-                        @if ($ira->hasMorePages())
+                        @if ($eventsReq->hasMorePages())
                             <li>
-                                <a href="{{ $ira->nextPageUrl() }}" class="px-4 py-2 bg-gray-700 text-white hover:bg-gray-500 rounded-full">Next</a>
+                                <a href="{{ $eventsReq->nextPageUrl() }}" class="px-4 py-2 bg-gray-700 text-white hover:bg-gray-500 rounded-full">Next</a>
                             </li>
                         @else
                             <li class="disabled">

@@ -15,7 +15,10 @@ class iraList extends Model
     // protected $guarded = [];
     protected $fillable = [
         'student_id',
-        'event_id'
+        'faculty_id',
+        'student_name',
+        'event_id',
+        'event_name'
     ];
     public $timestamps = false; // Disable timestamps
     public function student()

@@ -39,16 +39,16 @@
                 <h3 class="text-lg text-black ml-1">PORTAL</h3>
             </div>
             <ul class="space-y-4">
-                <li><a href="{{route('admin_events_List.index')}}"  
+                <li><a href="{{route('faculty_eventsList.index')}}"  
                 class="block py-2 px-3 text-base  N-active bg-gray-600 rounded hover:bg-gray-500">Event Status</a></li>
-                <li><a href="{{route('admin_events_req.index')}}"
+                <li><a href="{{route('faculty_events_req.index')}}"
                 class="block py-2 px-3 text-base  N-active bg-gray-600 rounded hover:bg-gray-500">Event Requests</a></li>
-                <li><a href="{{route('admin_ira.index')}}"
+                <li><a href="{{route('faculty_ira.index')}}"
                             class="block py-2 px-3 text-base active">IRA</a></li>
-                        <li><a href="{{route('admin_ira.index')}}"
-                            class="block py-2 px-3 text-base active">IRA Registration</a></li>
-                        <li><a href="{{route('admin_ira.result')}}"
-                                class="block py-2 px-3 text-base N-active bg-gray-600 rounded hover:bg-gray-500">IRA Result</a></li>
+                        <li><a href="{{route('faculty_ira.index')}}"
+                            class="block py-2 px-3 text-base N-active bg-gray-600 rounded hover:bg-gray-500">Evaluation</a></li>
+                        <li><a href="{{route('faculty_ira.result')}}"
+                                class="block py-2 px-3 text-base active">IRA Result</a></li>
             </ul>
         </div>
         @yield('content')

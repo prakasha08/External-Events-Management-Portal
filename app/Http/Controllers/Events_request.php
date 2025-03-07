@@ -77,8 +77,12 @@ class Events_request extends Controller
         public function getStudentDetails($id)
         {
             $student = student::find($id);
-            return response()->json($student);
+            return response()->json([
+                'student_id' => $student->student_id,
+                'department' => $student->department,
+            ]);
         }
+        
 
     /**
      * Display the specified resource.

@@ -33,22 +33,22 @@
         <!-- Sidebar -->
         <div id="sidebar"
             class="sidebar bg-gray-700 text-white w-64 p-6 fixed lg:relative h-full lg:h-screen transform lg:translate-x-0 -translate-x-full transition-transform duration-300 z-20">
-            <div class="flex items-center mb-6">
+            <div    class="flex items-center mb-6">
                 <i class="fa-solid fa-handshake-angle text-3xl mr-2 text-black"></i>
                 <h2 class="text-2xl text-cyan-400 font-bold">EVENTS</h2>
                 <h3 class="text-lg text-black ml-1">PORTAL</h3>
             </div>
             <ul class="space-y-4">
-                <li><a href="{{route('admin_events_List.index')}}"  
+                <li><a href="{{route('eventsList.index')}}"  
                 class="block py-2 px-3 text-base  N-active bg-gray-600 rounded hover:bg-gray-500">Event Status</a></li>
-                <li><a href="{{route('admin_events_req.index')}}"
+                <li><a href="{{route('events_req.index')}}"
                 class="block py-2 px-3 text-base  N-active bg-gray-600 rounded hover:bg-gray-500">Event Requests</a></li>
-                <li><a href="{{route('admin_ira.index')}}"
+                <li><a href="{{route('ira.index')}}"
                             class="block py-2 px-3 text-base active">IRA</a></li>
-                        <li><a href="{{route('admin_ira.index')}}"
-                            class="block py-2 px-3 text-base active">IRA Registration</a></li>
-                        <li><a href="{{route('admin_ira.result')}}"
-                                class="block py-2 px-3 text-base N-active bg-gray-600 rounded hover:bg-gray-500">IRA Result</a></li>
+                        <li><a href="{{route('ira.index')}}"
+                            class="block py-2 px-3 text-base N-active bg-gray-600 rounded hover:bg-gray-500">IRA Registration</a></li>
+                        <li><a href="{{route('Student_ira.result')}}"
+                                class="block py-2 px-3 text-base active">IRA Result</a></li>
             </ul>
         </div>
         @yield('content')
