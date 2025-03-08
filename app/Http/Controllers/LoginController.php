@@ -36,8 +36,8 @@ class LoginController extends Controller
                 'name' => $user->name,
                 'email' => $user->email,
             ]);
-
-            return redirect()->route('faculty_eventsList.index')->with('success', 'Logged In Successfully');
+            // return redirect()->route('faculty_eventsList.index')->with('success', 'Logged In Successfully');
+            return redirect()->route('eventsList.index')->with('success', 'Logged In Successfully');
         }
 
         return back()->with('error', 'Invalid Credentials.');

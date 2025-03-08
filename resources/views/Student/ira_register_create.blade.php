@@ -4,7 +4,11 @@
     <!-- Header -->
     <div class="header flex items-center bg-gray-600 text-black p-4 rounded mb-6 relative">
         <img src="{{ asset('logo.png') }}" alt="BIT Logo" class="h-16 ml-10 lg:ml-0 md:ml-0 s">
-        <h1 class="text-xl ml-4">{{ session('name') }}</h1>
+        @if(session('name'))
+            <h1 class="text-xl ml-4">{{ session('name') }}</h1>
+        @else
+            <h1 class="text-xl ml-4">Student</h1>
+        @endif
         <i class="fa-solid fa-user-graduate text-2xl ml-2"></i>
         <button id="toggleButton" class="text-3xl lg:hidden absolute right-4">
             <i class="fa-solid fa-bars"></i>
@@ -17,29 +21,9 @@
         <form class="forms" action="{{ route('ira.store') }}" method="POST">
             @csrf  
             <div class="flex flex-wrap -mx-2">
-                <div class="form-group w-full md:w-1/2 px-2 mb-4">
-                            @if($errors->first('student_id'))
-                            <span class="text-red-500 text-sm mt-1 block">
-                                <strong>{{ $errors->first('student_id') }}</strong>
-                            </span>
-                            @endif
-                            <label for="student_id" class="block text-sm font-medium text-gray-700">*Select Student:</label>
-                            <select id="student_id" name="student_id" class="mt-1 block w-full border border-gray-300 rounded-md p-2" onchange="fetchStudentDetails(this.value)">
-                                <option value="">Select</option>
-                                @foreach($students as $student)
-                                    <option value="{{ $student->id }}">{{ $student->name }}</option>
-                                @endforeach
-                            </select>
-                </div>
-                <div class="form-group w-full md:w-1/2 px-2 mb-4">
-                    @if($errors->first('reg_no'))
-                    <span class="text-red-500 text-sm mt-1 block">
-                        <strong>{{ $errors->first('reg_no') }}</strong>
-                    </span>
-                    @endif
-                    <label for="reg_no" class="block text-sm font-medium text-gray-700">*Enter your Reg No:</label>
-                    <input type="text" id="reg_no" name="reg_no" required
-                        class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ old('reg_no') }}">
+                <div class="form-group w-full md:w-1/2 px-2 mb-4" hidden>
+                    <label for="student_id" class="block text-sm font-medium text-gray-700">Faculty</label>
+                    <input type="text" id="student_id" name="student_id" value="{{ $students->id }}" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
                 </div>
             </div>
 

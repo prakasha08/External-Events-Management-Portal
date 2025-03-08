@@ -6,6 +6,7 @@
                 <img src="{{ asset('logo.png') }}" alt="BIT Logo"
                     class="h-16 ml-10 lg:ml-0 md:ml-0 s">
                 <h1 class="text-xl ml-4">{{{{ session('name') }}}}</h1>
+                <h1 class="text-xl ml-4">Admin Pane</h1>
                 <i class="fa-solid fa-user-graduate text-2xl ml-2"></i>
                 <button id="toggleButton" class="text-3xl lg:hidden absolute right-4">
                     <i class="fa-solid fa-bars"></i>

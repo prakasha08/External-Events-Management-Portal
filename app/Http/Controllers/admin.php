@@ -142,30 +142,36 @@ class Admin extends Controller
     }
 
     public function ira_show(iraList $event)
-{
-    $faculties = faculty::all();
-    $students = student::all();
-    return view('admin.ira_assign', compact('event', 'faculties', 'students'));
-}
+    {
+        $faculties = faculty::all();
+        $students = student::all();
+        return view('admin.ira_assign', compact('event', 'faculties', 'students'));
+    }
 
-public function ira_assign(Request $request, $id)
-{
-    $request->validate([
-        'faculty_id' => 'required'
-    ]);
+    public function ira_assign(Request $request, $id)
+    {
+        $request->validate([
+            'faculty_id' => 'required'
+        ]);
 
-    // Fetch the faculty name using the faculty_id
-    $facultyName = faculty::where('id', $request->faculty_id)->value('name');
+        // Fetch the faculty name using the faculty_id
+        $facultyName = faculty::where('id', $request->faculty_id)->value('name');
 
-    // Update the iraList record with the faculty name
-    $eventReq = iraList::findOrFail($id);
-    // $eventReq->faculty->name = $facultyName;
-    $eventReq->faculty_id = $request->faculty_id;
-    $eventReq->save();
+        // Update the iraList record with the faculty name
+        $eventReq = iraList::findOrFail($id);
+        // $eventReq->faculty->name = $facultyName;
+        $eventReq->faculty_id = $request->faculty_id;
+        $eventReq->save();
 
-    return redirect()->route('admin_ira.index')->with('message', 'Faculty Assigned successfully!');
-}
-    
+        return redirect()->route('admin_ira.index')->with('message', 'Faculty Assigned successfully!');
+    }
+
+    public function ira_result()
+    {
+        $eventsReq = iraList::whereNotNull('status')->paginate(4);
+        return view('admin.ira_results', compact('eventsReq'));
+    }
+
     /**
      * Display a listing of the resource.
      */

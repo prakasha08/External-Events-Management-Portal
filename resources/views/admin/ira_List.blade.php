@@ -4,7 +4,8 @@
     <!-- Header with Toggle Button -->
     <div class="header flex items-center bg-gray-600 text-black p-4 rounded mb-6 relative">
         <img src="{{ asset('logo.png') }}" alt="BIT Logo" class="h-16 ml-10 full:ml-0">
-        <h1 class="text-xl ml-4">{{ session('name') }}</h1>
+        <!-- <h1 class="text-xl ml-4">{{ session('name') }}</h1> -->
+        <h1 class="text-xl ml-4">Admin Pane</h1>
         <i class="fa-solid fa-user-graduate text-2xl ml-[7px]"></i>
         <button id="toggleButton" class="text-3xl hidden md:block absolute right-4">
             <i class="fa-solid fa-bars"></i>

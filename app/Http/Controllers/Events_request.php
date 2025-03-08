@@ -11,6 +11,7 @@ use Illuminate\Validation\Rules\Unique;
 use Illuminate\Support\Facades\DB;
 use App\Models\faculty;
 use App\Models\student;
+use Illuminate\Support\Facades\Auth;
 
 class Events_request extends Controller
 {
@@ -29,6 +30,7 @@ class Events_request extends Controller
     public function index()
     {
         $eventsReq = EventRequest::orderBy('created_at', 'desc')->paginate(4);
+        // $eventsReq = EventRequest::whereNotNull('status')->orderBy('created_at', 'desc')->paginate(4);
         return view('student.event_req', compact('eventsReq'));
     }
     
@@ -38,7 +40,24 @@ class Events_request extends Controller
      */
     public function create()
     {
-        $students = student::all();
+        $user = Auth::user();
+        // Find the faculty with the same email as the logged-in user's email
+        $students = student::where('mail_id', $user->email)->first();
+        // $iralist = EventRequest::where('student_id', $student->id)->whereNull('status')->get();
+        // $eventlist = iraList::where('faculty_id', $faculty->id)->distinct('event_id')->get();
+        // Fetch only the student_id and student_name
+        // dd($studentsArray);
+
+        // $studentsArray = $students->pluck('student_id')->toArray();
+    
+        // Check if faculty exists
+        // if (!$faculty) {
+        //     // If no faculty is found with the email, you can return an error message or redirect
+        //     return redirect()->back()->with('error', 'No faculty found for this user.');
+        // }
+        // dd($studentsArray);
+        // return view('faculty.ira_evaluation', compact('faculty','iralist','eventlist'));
+        // $students = student::all();
         return view('student.event_req_create', compact('students'));
     }
 

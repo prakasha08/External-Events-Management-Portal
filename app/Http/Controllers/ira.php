@@ -8,6 +8,7 @@ use App\Models\iraList;
 use App\Models\student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ira extends Controller
 {
@@ -24,9 +25,9 @@ class ira extends Controller
      * Show the form for creating a new resource.
      */
     public function ira_create()
-    {   
+    {   $user = Auth::user();
+        $students = student::where('mail_id', $user->email)->first();
         $events = EventsList::where('status', 'Approved')->where('ira', 'Yes')->get();
-        $students = student::all();
         return view('student.ira_register_create', compact('events','students'));
     }
 
@@ -61,11 +62,11 @@ class ira extends Controller
      * Display the specified resource.
      */
     public function ira_result()
-    {
-        $eventsReq = iraList::whereNotNull('status')->paginate(4);
-        return view('faculty.ira_results', compact('eventsReq'));
-    }
-
+{
+    $eventsReq = iraList::whereNotNull('status')->paginate(4);
+    return view('student.ira_results', compact('eventsReq'));
+}
+    
     /**
      * Show the form for editing the specified resource.
      */

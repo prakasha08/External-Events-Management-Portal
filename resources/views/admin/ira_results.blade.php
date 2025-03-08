@@ -4,7 +4,11 @@
     <!-- Header with Toggle Button -->
     <div class="header flex items-center bg-gray-600 text-black p-4 rounded mb-6 relative">
         <img src="{{ asset('logo.png') }}" alt="BIT Logo" class="h-16 ml-10 full:ml-0">
-        <h1 class="text-xl ml-4">{{ session('name') }}</h1>
+        @if(session('name'))
+            <h1 class="text-xl ml-4">{{ session('name') }}</h1>
+        @else
+            <h1 class="text-xl ml-4">Student</h1>
+        @endif
         <i class="fa-solid fa-user-graduate text-2xl ml-[7px]"></i>
         <button id="toggleButton" class="text-3xl hidden md:block absolute right-4">
             <i class="fa-solid fa-bars"></i>
@@ -20,11 +24,6 @@
     <!-- Table Section -->
     <div class="table-div bg-white p-6 rounded shadow">
         <h2 class="text-xl text-center bg-gray-600 text-white p-3 rounded mb-6 font-bold">Evaluated List</h2>
-        <div class="flex justify-end mb-4">
-            <a href="{{route('faculty_ira_evaluate.index')}}" class="bg-gray-700 text-white hover:bg-gray-500 px-4 py-2 rounded">
-                <i class="fa-solid fa-plus" style="color: #ffffff;"></i> New
-            </a>
-        </div>
         <div class="overflow-x-auto">
             <table class="min-w-full border-collapse">
                 <thead>
@@ -34,7 +33,6 @@
                         <th class="border p-3 text-center">Reg No</th>
                         <th class="border p-3 text-center">Event Name</th>
                         <th class="border p-3 text-center">Result</th>
-                        <th class="border p-3 text-center">View</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,11 +51,6 @@
                             <td class="border p-3 text-center">{{ $eventReq->student->reg_no }}</td>
                             <td class="border p-3 text-center">{{ $eventReq->event->event_name }}</td>
                             <td class="border p-3 text-center">{{ $eventReq->status }}</td>
-                            <td class="border p-3 text-center">
-                                <a href="{{ route('faculty_events_req.show', $eventReq->event->event_name) }}" class="cursor-pointer">
-                                    <i class="fa-solid fa-eye"></i>
-                                </a>
-                            </td>
                         </tr>
                     @endforeach
                 @endif

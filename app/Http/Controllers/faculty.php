@@ -35,8 +35,9 @@ class faculty extends Controller
     public function create()
     {
         
-        $faculties = AppModelsFaculty::all();
-        return view('faculty.event_req_create', compact('faculties'));
+        $user = Auth::user();
+        $faculty = AppModelsFaculty::where('mail_id', $user->email)->first();
+        return view('faculty.event_req_create', compact('faculty'));
     }
 
     public function getFacultyDetails($id)

@@ -38,7 +38,6 @@
                         <th class="border p-3 text-center">Ending Date</th>
                         <th class="border p-3 text-center">Status</th>
                         <th class="border p-3 text-center">IRA</th>
-                        <th class="border p-3 text-center">View</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,11 +60,7 @@
                             <td class="border p-3 text-center">{{ $eventReq->end_date }}</td>
                             <td class="border p-3 text-center">{{ $eventReq->status ?? 'Pending' }}</td>
                             <td class="border p-3 text-center">{{ $eventReq->ira ?? 'Pending' }}</td>
-                            <td class="border p-3 text-center">
-                                <a href="{{ route('faculty_events_req.show', $eventReq->event->event_name) }}" class="cursor-pointer">
-                                    <i class="fa-solid fa-eye"></i>
-                                </a>
-                            </td>
+                            
                         </tr>
                     @endforeach
                 @endif

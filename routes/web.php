@@ -36,7 +36,7 @@ Route::delete('/admin/eventsList/{event}',[admin::class,'events_destroy'])->name
 Route::get('/admin/ira', [admin::class, 'ira_index'])->name('admin_ira.index');
 Route::get('/admin/ira/{event}', [admin::class, 'ira_show'])->name('admin_ira.show');
 Route::post('/admin/ira/{id}/assign', [admin::class, 'ira_assign'])->name('admin_ira.assign');
-Route::get('/admin/ira/results', [ira::class, 'ira_result'])->name('admin_ira.result');
+Route::get('/admin/ira/results', [admin::class, 'ira_result'])->name('admin_ira.result');
 
 Route::get('/faculty/events_req',[faculty::class,'index'])->name('faculty_events_req.index');
 Route::get('/faculty/events_req/create',[faculty::class,'create'])->name('faculty_events_req.create');
@@ -48,10 +48,13 @@ Route::get('/faculty/eventsList/{event}', [faculty::class, 'events_show'])->name
 Route::get('/faculty/ira', [faculty::class, 'ira_index'])->name('faculty_ira.index');
 Route::get('/faculty/ira/evaluate', [faculty::class, 'ira_evaluate'])->name('faculty_ira_evaluate.index');
 Route::post('/faculty/ira/evaluate/store', [faculty::class, 'ira_evaluate_store'])->name('faculty_ira_evaluate.store');
-Route::get('/faculty/ira/results', [ira::class, 'ira_result'])->name('faculty_ira.result');
+Route::get('/faculty/ira/results', [faculty::class, 'ira_result'])->name('faculty_ira.result');
+
+// Route::get('/ira/results', [ira::class,'ira_result'])->name('ira.result');
 
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('index');
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login.index');
 Route::post('/login/check', [LoginController::class, 'login'])->name('login.validate');
 Route::get('/register', [LoginController::class, 'showregisterForm'])->name('register.index');
 Route::post('/register/store', [LoginController::class, 'register'])->name('register.store');
+

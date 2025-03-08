@@ -17,22 +17,12 @@
         <form class="forms" action="{{ route('faculty_events_req.store') }}" method="POST">
             @csrf  
             <div class="flex flex-wrap -mx-2">
-                <div class="form-group w-full md:w-1/2 px-2 mb-4">
-                    @if($errors->first('faculty_select'))
-                    <span class="text-red-500 text-sm mt-1 block">
-                        <strong>{{ $errors->first('faculty_select') }}</strong>
-                    </span>
-                    @endif
-                    <label for="faculty_select" class="block text-sm font-medium text-gray-700">*Select Faculty:</label>
-                    <select id="faculty_select" name="faculty_select" class="mt-1 block w-full border border-gray-300 rounded-md p-2" onchange="fetchFacultyDetails(this.value)">
-                        <option value="">Select</option>
-                        @foreach($faculties as $faculty)
-                            <option value="{{ $faculty->id }}">{{ $faculty->name }}</option>
-                        @endforeach
-                    </select>
+                <div class="form-group w-full md:w-1/2 px-2 mb-4" hidden>
+                    <label for="faculty_id" class="block text-sm font-medium text-gray-700">Faculty</label>
+                    <input type="text" id="faculty_id" name="faculty_id" value="{{ $faculty->id }}" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
                 </div>
             </div>
-            <div class="flex flex-wrap -mx-2">
+            <!-- <div class="flex flex-wrap -mx-2">
                 <div class="form-group w-full md:w-1/2 px-2 mb-4">
                     @if($errors->first('department'))
                     <span class="text-red-500 text-sm mt-1 block">
@@ -43,15 +33,15 @@
                     <input type="text" id="department" name="department" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ old('department') }}">
                 </div>
                 <div class="form-group w-full md:w-1/2 px-2 mb-4">
-                    @if($errors->first('faculty_id'))
+                    @if($errors->first('student_id'))
                     <span class="text-red-500 text-sm mt-1 block">
-                        <strong>{{ $errors->first('faculty_id') }}</strong>
+                        <strong>{{ $errors->first('student_id') }}</strong>
                     </span>
                     @endif
-                    <label for="faculty_id" class="block text-sm font-medium text-gray-700">Faculty ID</label>
-                    <input type="text" id="faculty_id" name="faculty_id" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ old('faculty_id') }}">
+                    <label for="student_id" class="block text-sm font-medium text-gray-700">Student ID</label>
+                    <input type="text" id="student_id" name="student_id" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" value="{{ old('student_id') }}">
                 </div>
-            </div>
+            </div> -->
             <!-- Other form fields -->
             <div class="flex flex-wrap -mx-2">
                 <div class="form-group w-full md:w-1/2 px-2 mb-4">

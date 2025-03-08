@@ -4,7 +4,11 @@
     <!-- Header with Toggle Button -->
     <div class="header flex items-center bg-gray-600 text-black p-4 rounded mb-6 relative">
         <img src="{{ asset('logo.png') }}" alt="BIT Logo" class="h-16 ml-10 full:ml-0">
-        <h1 class="text-xl ml-4">{{ session('name') }}</h1>
+        @if(session('name'))
+            <h1 class="text-xl ml-4">{{ session('name') }}</h1>
+        @else
+            <h1 class="text-xl ml-4">Student</h1>
+        @endif
         <i class="fa-solid fa-user-graduate text-2xl ml-[7px]"></i>
         <button id="toggleButton" class="text-3xl hidden md:block absolute right-4">
             <i class="fa-solid fa-bars"></i>
@@ -34,7 +38,6 @@
                         <th class="border p-3 text-center">Event Name</th>
                         <th class="border p-3 text-center">IRA Status</th>
                         <th class="border p-3 text-center">Faculty</th>
-                        <th class="border p-3 text-center">View</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,11 +56,7 @@
                             <td class="border p-3 text-center">{{ $eventReq->event->event_name}}</td>
                             <td class="border p-3 text-center">{{ $eventReq->status  ?? 'Pending'}}</td>
                             <td class="border p-3 text-center">{{ $eventReq->faculty->name  ?? 'Not Assigned'}}</td>
-                            <td class="border p-3 text-center">
-                                    <a href="{{route('admin_ira.show',$eventReq->id)}}" class="cursor-pointer">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
-                            </td>
+                            
                         </tr>
                     @endforeach
                 @endif
