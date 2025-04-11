@@ -9,7 +9,7 @@
         @else
             <h1 class="text-xl ml-4">Student</h1>
         @endif
-        <i class="fa-solid fa-user-graduate text-2xl ml-[7px]"></i>
+        <i class="fa-solid fa-user-shield text-2xl ml-[7px]"></i>
         <button id="toggleButton" class="text-3xl hidden md:block absolute right-4">
             <i class="fa-solid fa-bars"></i>
         </button>

@@ -62,10 +62,10 @@ class ira extends Controller
      * Display the specified resource.
      */
     public function ira_result()
-{
-    $eventsReq = iraList::whereNotNull('status')->paginate(4);
-    return view('student.ira_results', compact('eventsReq'));
-}
+    {
+        $eventsReq = iraList::whereNotNull('status')->paginate(4);
+        return view('student.ira_results', compact('eventsReq'));
+    }
     
     /**
      * Show the form for editing the specified resource.

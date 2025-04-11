@@ -129,4 +129,9 @@ class faculty extends Controller
     
         return redirect()->route('faculty_ira.index')->with('message', 'Evaluation Done for $request->student_id');
     }
+    public function ira_result()
+    {
+        $eventsReq = iraList::whereNotNull('status')->paginate(4);
+        return view('faculty.ira_results', compact('eventsReq'));
+    }
 }

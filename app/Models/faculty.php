@@ -12,7 +12,7 @@ class faculty extends Model
     //For mass Assignments by mention each aattribute
     // protected $fillable = ['name','institute','location','mode','end_date','start_date'];
     //Mass Assignment by exception using guarded;
-    protected $guarded = [];
+        protected $guarded = [];
     public $timestamps = false; // Disable timestamps
     public function student()
     {

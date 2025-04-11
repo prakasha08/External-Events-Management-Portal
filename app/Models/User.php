@@ -44,4 +44,20 @@ namespace App\Models;
                 'password' => 'hashed',
             ];
         }
+        public function faculty()
+    {
+        return $this->hasOne(faculty::class, 'user_id');
+    }
+
+    // Define the relationship with the Student model
+    public function student()
+    {
+        return $this->hasOne(student::class, 'user_id');
+    }
+
+    // Define the relationship with the Admin model
+    public function admin()
+    {
+        return $this->hasOne(admin::class, 'user_id');
+    }
     }
